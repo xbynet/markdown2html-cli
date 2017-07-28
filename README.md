@@ -8,7 +8,9 @@ npm install
 ```
 then run:   
 ```
-gulp tohtml
+gulp tohtml    
+#gulp watch #you can also use  gulp watch to write md with immedicately view on your browser
 ```
-now please see dist/index.html.  the source code of index.md is a demo article, the generated index.html look like below:
+now please see dist/index.html.  the source code of index.md is a demo article, the generated index.html look like below:   
+
 ![](111.png)
