@@ -10,4 +10,5 @@ then run:
 ```
 gulp tohtml
 ```
-now please see dist/index.html   
+now please see dist/index.html.  the source code of index.md is a demo article, the generated index.html look like below:
+![](111.png)
