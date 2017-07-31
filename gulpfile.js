@@ -4,6 +4,18 @@ var livereload = require('gulp-livereload');
 var renderer = new markdown.marked.Renderer();
 var map = require('map-stream');
 var hljs = require('./highlight.min.js');
+var minimist = require('minimist');
+
+var argsObj = minimist(process.argv.slice(3), {
+    string: ['path', 'title'],
+    default: {
+        'path': 'index.md',
+        'title': 'index'
+    }
+})
+var mdPath = argsObj.path ? argsObj.path : 'index.md';
+var title = argsObj.title ? argsObj.title : 'index';
+console.log('the arg path is:' + mdPath + ", the arg title is:" + title);
 
 var tocmodel = [];
 var toplevel = null;
@@ -69,13 +81,13 @@ var options = {
 
 
 gulp.task('tohtml', function() {
-    return gulp.src('index.md')
+    return gulp.src(mdPath)
         .pipe(markdown(options))
         .pipe(map(function(file, cb) {
             var fileContents = file.contents.toString();
-            fileContents = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>index</title>' +
+            fileContents = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>' + title + '</title>' +
                 '<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css"><script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>' +
-                '<style>.code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;} .post{ margin-left: 380px;padding-top: 20px;padding-bottom: 60px;width: 960px;}' +
+                '<style>.code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;} .post{padding-top: 20px;margin-left: 380px;padding-bottom: 60px;max-width: 960px;}' +
                 ' ol.order{ counter-reset: item } li.order{ display: block } li.order:before { content: counters(item, ".") " "; counter-increment: item } ' +
                 ' .toc{position:fixed;width:350px;left:20px;top:20px;bottom:20px;height 600px;overflow-y:scroll;}' +
                 '</style>' +
