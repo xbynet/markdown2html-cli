@@ -75,9 +75,9 @@ gulp.task('tohtml', function() {
             var fileContents = file.contents.toString();
             fileContents = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>index</title>' +
                 '<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css"><script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>' +
-                '<style>.code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;} .post{ margin: 0 auto;padding-top: 20px;padding-bottom: 60px;width: 960px;}' +
+                '<style>.code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;} .post{ margin-left: 380px;padding-top: 20px;padding-bottom: 60px;width: 960px;}' +
                 ' ol.order{ counter-reset: item } li.order{ display: block } li.order:before { content: counters(item, ".") " "; counter-increment: item } ' +
-                ' .toc{position:fixed;width:400px;left:20px;top:20px;bottom:20px;height 600px;overflow-y:scroll;}' +
+                ' .toc{position:fixed;width:350px;left:20px;top:20px;bottom:20px;height 600px;overflow-y:scroll;}' +
                 '</style>' +
                 '</head><body><div class="toc"><h3>目录：</h3>' + fmtToc(tocmodel) + '</div><div class="post">' +
                 fileContents +
