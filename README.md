@@ -17,7 +17,7 @@ But, what if i want to real-time preview when i write markdown file,don't worry.
 2、ordered run commandline:
 ```sh
 $ cd your_work_dir
-$ http-server
+$ http-server    ;;;if your have not install it.please run   npm install -g http-server
 $ gulp watch
 ```
 now you can open `127.0.0.1:8080/index.html` to see it.

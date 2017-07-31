@@ -1,22 +1,22 @@
 {
-  "name": "xxx",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-livereload": "^3.8.1",
-    "gulp-markdown": "^1.2.0",
-    "highlight.js": "^9.12.0",
-    "map-stream": "^0.0.7",
-	"minimist": "^1.2.0"
-  },
-  "dependencies": {
-    
-  }
+    "name": "xxx",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "gulp": "^3.9.1",
+        "gulp-livereload": "^3.8.1",
+        "gulp-markdown": "^1.2.0",
+        "highlight.js": "^9.12.0",
+        "map-stream": "^0.0.7",
+        "minimist": "^1.2.0"
+    },
+    "dependencies": {
+
+    }
 }
