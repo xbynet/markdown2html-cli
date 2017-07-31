@@ -23,8 +23,8 @@ $ gulp watch
 now you can open `127.0.0.1:8080/index.html` to see it.
 
 ### Cli args:
---path : the work filepath ,it support gulp path syntax like \*.md,\*\*/\*.md,etc.
---title: the file title.
+- --path : the work filepath ,it support gulp path syntax like \*.md,\*\*/\*.md,etc. 
+- --title: the file title.
 
 example use:  
 ```
