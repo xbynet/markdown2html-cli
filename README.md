@@ -34,3 +34,8 @@ gulp tohtml --path **/*.md --title demo-page
 AnyWhere,Before you start your work for it ,now please see dist/index.html.  The source code of index.md is a demo article, the generated index.html look like below:   
 
 ![](111.png)    
+
+
+
+There is also a online [demo page](http://www.xby1993.net/pages/dokuwiki/web/gulp前端自动化构建工具.html)    
+
