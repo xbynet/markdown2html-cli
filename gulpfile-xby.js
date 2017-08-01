@@ -9,6 +9,9 @@ var map = require('map-stream');
 var hljs = require('./highlight.min.js');
 var minimist = require('minimist');
 var async = require('async');
+const Mustache = require('mustache');
+const uuidv4 = require('uuid/v4');
+
 var BosClient = require('bce-sdk-js').BosClient;
 
 var bucket = '';
@@ -55,20 +58,27 @@ function pushLevel(model, level, escapedText) {
     }
 }
 
-function fmtToc(model) {
-    var tmp = '<ol class="order">'
+function fmtToc(model, isFirst, name) {
+    var tmp = null;
+    if (isFirst) {
+        tmp = '<ul class="list-unstyled components">';
+    } else {
+        var id = uuidv4();
+        tmp = '<li><a href="#' + id + '" data-toggle="collapse" aria-expanded="false">' + name + '</a><ul class="collapse list-unstyled" id="' + id + '"><li><a href="#' + name + '">' + name + '</a></li>';
+    }
     if (model.length > 0) {
         model.forEach(function(e, i) {
-            var tt = '<li class="order"><a href="#' + e.name + '" >' + e.name + '</a>';
+            var tt = null;
             if (e.sub.length > 0) {
-                tt = tt + fmtToc(e.sub) + '</li>';
+                tt = fmtToc(e.sub, false, e.name);
             } else {
-                tt = tt + '</li>';
+                tt = '<li><a href="#' + e.name + '">' + e.name + '</a></li>';
             }
             tmp = tmp + tt;
         });
     }
-    return tmp + '</ol>';
+
+    return isFirst ? tmp + '</ul>' : tmp + '</ul></li>';
 }
 
 
@@ -122,6 +132,9 @@ var options = {
 }
 
 
+var styleDefaultData = fs.readFileSync("style.css", "utf-8");
+var templateHtml = fs.readFileSync('template.html', 'utf-8');
+var styleCustomData = '.code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;}';
 
 gulp.task('tohtml', function() {
     return gulp.src(mdPath)
@@ -145,17 +158,13 @@ gulp.task('tohtml', function() {
             fileContents = fileContents.replace(/\/pages\/(.*?)\.md/gm, function(match, p1, offset, string) {
                 return '/pages/' + p1 + '.html';
             });
-            fileContents = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>' + title + '</title>' +
-                '<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css"><script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>' +
-                '<style>.code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;} .post{padding-top: 20px;margin-left: 380px;padding-bottom: 60px;max-width: 960px;}' +
-                ' ol.order{ counter-reset: item } li.order{ display: block } li.order:before { content: counters(item, ".") " "; counter-increment: item } ' +
-                ' .toc{position:fixed;width:350px;left:20px;top:20px;bottom:20px;height 600px;overflow-y:scroll;}' +
-                '</style>' +
-                '<meta http-equiv="pragma" content="no-cache"><meta http-equiv="cache-control" content="no-cache"><meta http-equiv="expires" content="0"></head>' +
-                '<body><div class="toc"><h3>目录：</h3>' + fmtToc(tocmodel) + '</div><div class="post">' +
-                fileContents +
-                '</div><script>hljs.initHighlightingOnLoad();$("li>code,p > code").addClass("code");' +
-                '</script></body></html>';
+            fileContents = Mustache.render(templateHtml, {
+                title: title,
+                content: fileContents,
+                toc: fmtToc(tocmodel, true),
+                styleDefault: styleDefaultData,
+                styleCustom: styleCustomData
+            });
             file.contents = new Buffer(fileContents);
 
             //清空历史数据

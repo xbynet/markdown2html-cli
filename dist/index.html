@@ -1,4 +1,290 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>index</title><link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css"><script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><style>.code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;} .post{ margin: 0 auto;padding-top: 20px;padding-bottom: 60px;width: 960px;} ol.order{ counter-reset: item } li.order{ display: block } li.order:before { content: counters(item, ".") " "; counter-increment: item }  .toc{position:fixed;width:400px;left:20px;top:20px;bottom:20px;height 600px;overflow-y:scroll;}</style></head><body><div class="toc"><h3>目录：</h3><ol class="order"><li class="order"><a href="#安装" >安装</a><ol class="order"><li class="order"><a href="#全局安装gulp" >全局安装gulp</a></li><li class="order"><a href="#package-json文件-nodejs项目配置文件-" >package-json文件-nodejs项目配置文件-</a></li><li class="order"><a href="#项目本地安装gulp以及gulp插件" >项目本地安装gulp以及gulp插件</a></li><li class="order"><a href="#新建gulpfile-js文件-重要-" >新建gulpfile-js文件-重要-</a><ol class="order"><li class="order"><a href="#加载插件" >加载插件</a></li><li class="order"><a href="#建立任务" >建立任务</a></li><li class="order"><a href="#js代码校验-合并和压缩" >js代码校验-合并和压缩</a></li><li class="order"><a href="#压缩图片" >压缩图片</a></li><li class="order"><a href="#清除文件" >清除文件</a></li><li class="order"><a href="#设置默认任务-default-" >设置默认任务-default-</a></li><li class="order"><a href="#监听文件" >监听文件</a></li></ol></li></ol></li><li class="order"><a href="#总结" >总结</a></li><li class="order"><a href="#部分api说明" >部分api说明</a><ol class="order"><li class="order"><a href="#glob模式语法说明" >glob模式语法说明</a></li><li class="order"><a href="#异步任务支持" >异步任务支持</a></li></ol></li><li class="order"><a href="#javascript-source-map与gulp-sourcemaps的作用" >javascript-source-map与gulp-sourcemaps的作用</a></li><li class="order"><a href="#gulp教程之gulp-uglify" >gulp教程之gulp-uglify</a></li><li class="order"><a href="#gulp-autoprefixer插件说明" >gulp-autoprefixer插件说明</a></li><li class="order"><a href="#gulp教程之gulp-minify-css插件说明" >gulp教程之gulp-minify-css插件说明</a></li><li class="order"><a href="#gulp教程之gulp-imagemin" >gulp教程之gulp-imagemin</a></li><li class="order"><a href="#gulp教程之gulp-concat合并文件" >gulp教程之gulp-concat合并文件</a></li><li class="order"><a href="#gulp-ruby-sass与ruby-gem配置" >gulp-ruby-sass与ruby-gem配置</a></li><li class="order"><a href="#使用示例" >使用示例</a></li></ol></div><div class="post"><h1><a name="gulp前端自动化构建工具" class="anchor" href="#gulp前端自动化构建工具"><span class="header-link"></span></a>gulp前端自动化构建工具</h1><p>官网:<a href="http://gulpjs.com/">http://gulpjs.com/</a><br>github与文档:<a href="https://github.com/gulpjs/gulp/tree/master/docs">https://github.com/gulpjs/gulp/tree/master/docs</a><br>中文:<a href="http://www.gulpjs.com.cn/docs/#articles/">http://www.gulpjs.com.cn/docs/#articles/</a><br>部分插件中文说明:<a href="http://www.ydcss.com/archives/tag/gulp">http://www.ydcss.com/archives/tag/gulp</a><br>参考：<br><a href="http://markpop.github.io/2014/09/17/Gulp%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">http://markpop.github.io/2014/09/17/Gulp%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</a><br><a href="http://www.ydcss.com/archives/18">http://www.ydcss.com/archives/18</a><br><a href="http://blog.jobbole.com/80338/">http://blog.jobbole.com/80338/</a>   </p>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>index</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Our Custom CSS
+    <link rel="stylesheet" href="style.css"> -->
+    <style>
+        /*
+    DEMO STYLE
+
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+*/
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    /*color: #999;*/
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 300px;
+    max-width: 300px;
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -300px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article, a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -300px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+@media (min-width: 769px) {
+    #sidebar {
+        position:fixed;
+		top: 0;
+		bottom: 0;
+		overflow-y: scroll;
+    }
+    #content{
+		margin-left:300px;
+	}
+}
+#back-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 9999;
+    width: 64px;
+    height: 32px;
+    text-align: center;
+    line-height: 30px;
+    background: #f5f5f5;
+    color: #444;
+    cursor: pointer;
+    border: 0;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s ease-out;
+    opacity: 0;
+}
+#back-to-top:hover {
+    background: #e9ebec;
+}
+#back-to-top.show {
+    opacity: 1;
+}
+#content {
+    height: 2000px;
+}
+
+
+.scroll {
+  width: 20px;
+  /**height: 200px;*/
+  overflow: auto;
+  float: left;
+  /*margin: 0 10px;*/
+}
+
+.scroll1::-webkit-scrollbar {
+  width: 5px;
+}
+ 
+.scroll1::-webkit-scrollbar-track {
+  background: #ddd;
+}
+ 
+.scroll1::-webkit-scrollbar-thumb {
+  background: #666; 
+}
+
+
+footer {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 100px;
+    color: #99979c;
+    text-align: center;
+    background-color: #2a2730;
+}
+
+        
+        .code{padding: 2px 4px;font-size: 90%;color: #c7254e;background-color: #f9f2f4;border-radius: 4px;}
+    </style>
+</head>
+
+<body>
+
+
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar" class="scroll scroll1">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+            </div>
+            <ul class="list-unstyled components"><li><a href="#cf8bd1bb-ea93-46fe-b76e-49fd8df2b423" data-toggle="collapse" aria-expanded="false">安装</a><ul class="collapse list-unstyled" id="cf8bd1bb-ea93-46fe-b76e-49fd8df2b423"><li><a href="#安装">安装</a></li><li><a href="#全局安装gulp">全局安装gulp</a></li><li><a href="#package-json文件-nodejs项目配置文件-">package-json文件-nodejs项目配置文件-</a></li><li><a href="#项目本地安装gulp以及gulp插件">项目本地安装gulp以及gulp插件</a></li><li><a href="#2f43a84e-1e26-426d-8b97-361062fad1c2" data-toggle="collapse" aria-expanded="false">新建gulpfile-js文件-重要-</a><ul class="collapse list-unstyled" id="2f43a84e-1e26-426d-8b97-361062fad1c2"><li><a href="#新建gulpfile-js文件-重要-">新建gulpfile-js文件-重要-</a></li><li><a href="#加载插件">加载插件</a></li><li><a href="#建立任务">建立任务</a></li><li><a href="#js代码校验-合并和压缩">js代码校验-合并和压缩</a></li><li><a href="#压缩图片">压缩图片</a></li><li><a href="#清除文件">清除文件</a></li><li><a href="#设置默认任务-default-">设置默认任务-default-</a></li><li><a href="#监听文件">监听文件</a></li></ul></li></ul></li><li><a href="#总结">总结</a></li><li><a href="#4883c081-f681-460c-b3a3-2ec652987f2f" data-toggle="collapse" aria-expanded="false">部分api说明</a><ul class="collapse list-unstyled" id="4883c081-f681-460c-b3a3-2ec652987f2f"><li><a href="#部分api说明">部分api说明</a></li><li><a href="#glob模式语法说明">glob模式语法说明</a></li><li><a href="#异步任务支持">异步任务支持</a></li></ul></li><li><a href="#javascript-source-map与gulp-sourcemaps的作用">javascript-source-map与gulp-sourcemaps的作用</a></li><li><a href="#gulp教程之gulp-uglify">gulp教程之gulp-uglify</a></li><li><a href="#gulp-autoprefixer插件说明">gulp-autoprefixer插件说明</a></li><li><a href="#gulp教程之gulp-minify-css插件说明">gulp教程之gulp-minify-css插件说明</a></li><li><a href="#gulp教程之gulp-imagemin">gulp教程之gulp-imagemin</a></li><li><a href="#gulp教程之gulp-concat合并文件">gulp教程之gulp-concat合并文件</a></li><li><a href="#gulp-ruby-sass与ruby-gem配置">gulp-ruby-sass与ruby-gem配置</a></li><li><a href="#使用示例">使用示例</a></li></ul>
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+			
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-align-left"></i>
+                                <span></span>
+                            </button>
+                    </div>
+                </div>
+            </nav>
+		
+            <div>
+                <h1><a name="gulp前端自动化构建工具" class="anchor" href="#gulp前端自动化构建工具"><span class="header-link"></span></a>gulp前端自动化构建工具</h1><p>官网:<a href="http://gulpjs.com/">http://gulpjs.com/</a><br>github与文档:<a href="https://github.com/gulpjs/gulp/tree/master/docs">https://github.com/gulpjs/gulp/tree/master/docs</a><br>中文:<a href="http://www.gulpjs.com.cn/docs/#articles/">http://www.gulpjs.com.cn/docs/#articles/</a><br>部分插件中文说明:<a href="http://www.ydcss.com/archives/tag/gulp">http://www.ydcss.com/archives/tag/gulp</a><br>参考：<br><a href="http://markpop.github.io/2014/09/17/Gulp%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">http://markpop.github.io/2014/09/17/Gulp%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</a><br><a href="http://www.ydcss.com/archives/18">http://www.ydcss.com/archives/18</a><br><a href="http://blog.jobbole.com/80338/">http://blog.jobbole.com/80338/</a>   </p>
 <p>npm插件搜索：<a href="https://www.npmjs.com/browse/keyword/gulpplugin">https://www.npmjs.com/browse/keyword/gulpplugin</a><br>gulp插件搜索:<a href="http://gulpjs.com/plugins/">http://gulpjs.com/plugins/</a>   </p>
 <p>gulp资料大全：<a href="https://segmentfault.com/a/1190000004915222">https://segmentfault.com/a/1190000004915222</a>   </p>
 <p><strong>gulp</strong>是最近流行前端构建工具，苦于之前使用Grunt，代码很难阅读，现在出了Gulp，真是摆脱了痛苦。<br><strong>为什么使用Gulp</strong><br>Gulp基于Node.js的前端构建工具，通过Gulp的插件可以<strong>实现前端代码的编译（sass、less）、压缩、测试；图片的压缩；浏览器自动刷新</strong>，还有许多强大的插件可以在<a href="http://gulpjs.com/plugins/">这里</a>查找。比起Grunt不仅配置简单而且更容易阅读和维护。   </p>
@@ -681,4 +967,46 @@ gulp.task(<span class="hljs-string">'sass'</span>, <span class="hljs-function"><
   gulp.task(<span class="hljs-string">'watch'</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{   
       gulp.watch(<span class="hljs-string">'common/*.scss'</span>,[<span class="hljs-string">'testSass'</span>]);   
   });</span>
-</code></pre></div><script>hljs.initHighlightingOnLoad();$("li>code,p > code").addClass("code");</script></body></html>
+</code></pre>
+            </div>
+			<footer><p>powered by xbynet</p></footer>
+        </div>
+    </div>
+	
+    <a href="#" id="back-to-top" title="Back to top">返回顶部</a>
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            hljs.initHighlightingOnLoad();
+            $("li>code,p > code").addClass("code");
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+        if ($('#back-to-top').length) {
+            var scrollTrigger = 100, // px
+                backToTop = function() {
+                    var scrollTop = $(window).scrollTop();
+                    if (scrollTop > scrollTrigger) {
+                        $('#back-to-top').addClass('show');
+                    } else {
+                        $('#back-to-top').removeClass('show');
+                    }
+                };
+            backToTop();
+            $(window).on('scroll', function() {
+                backToTop();
+            });
+            $('#back-to-top').on('click', function(e) {
+                e.preventDefault();
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 700);
+            });
+        }
+    </script>
+</body>
+
+</html>

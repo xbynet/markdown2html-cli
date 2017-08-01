@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Our Custom CSS
+    <link rel="stylesheet" href="style.css"> -->
+    <style>
+        {{{ styleDefault }}}
+        
+        {{{ styleCustom }}}
+    </style>
+</head>
+
+<body>
+
+
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar" class="scroll scroll1">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+            </div>
+            {{{ toc }}}
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+			
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-align-left"></i>
+                                <span></span>
+                            </button>
+                    </div>
+                </div>
+            </nav>
+		
+            <div>
+                {{{ content }}}
+            </div>
+			<footer><p>powered by xbynet</p></footer>
+        </div>
+    </div>
+	
+    <a href="#" id="back-to-top" title="Back to top">返回顶部</a>
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            hljs.initHighlightingOnLoad();
+            $("li>code,p > code").addClass("code");
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+        if ($('#back-to-top').length) {
+            var scrollTrigger = 100, // px
+                backToTop = function() {
+                    var scrollTop = $(window).scrollTop();
+                    if (scrollTop > scrollTrigger) {
+                        $('#back-to-top').addClass('show');
+                    } else {
+                        $('#back-to-top').removeClass('show');
+                    }
+                };
+            backToTop();
+            $(window).on('scroll', function() {
+                backToTop();
+            });
+            $('#back-to-top').on('click', function(e) {
+                e.preventDefault();
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 700);
+            });
+        }
+    </script>
+</body>
+
+</html>
