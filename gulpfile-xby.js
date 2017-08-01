@@ -142,16 +142,18 @@ gulp.task('tohtml', function() {
         .pipe(map(function(file, cb) {
             var tpath = file.path;
 
-            var key;
+            var key=null;
             if (tpath.endsWith('README.md') || tpath.endsWith('README.html')) {
                 key = 'index.html';
             } else {
-                if (tpath.contains(path.sep + 'dist' + path.sep + 'data' + path.sep)) {
+                if (tpath.indexOf(path.sep + 'dist' + path.sep + 'data' + path.sep)>=0) {
                     key = tpath.substring(tpath.indexOf(path.sep + 'data' + path.sep) + 1).replace(/\\/g, '/');
-                } else if (tpath.contains(path.sep + 'pages' + path.sep)) {
+                } else if (tpath.indexOf(path.sep + 'pages' + path.sep)>=0) {
                     key = tpath.substring(tpath.indexOf(path.sep + 'pages' + path.sep) + 1).replace(/\\/g, '/');
                 }
-                key = key.replace('.md', '.html');
+				if(key){
+					key = key.replace('.md', '.html');
+				}
             }
 
             var fileContents = file.contents.toString();
@@ -206,7 +208,7 @@ gulp.task('upload', ['tohtml'], function() {
                     cb(null, '')
                 })
                 .catch((err) => {
-                    console.log(key + 'failed');
+                    console.log(key + 'failed'+err);
                     cb(null, '')
                 });
         });
